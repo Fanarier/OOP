@@ -1,90 +1,64 @@
-import math
+#11.1. Создание данных типа "класс"
+#Задача 12: Создать класс с двумя полями:
 
-class ComplexNumber:
+#Поле 1: "Инициалы книги" (например, первые буквы автора и название).
+#Поле 2: "Первый тираж" (количество книг в первом тираже).\
 
-    def __init__(self, real=0, imaginary=0):
+class Book:
+    def __init__(self, initials, first_print):
+        self.initials = initials  # Инициалы книги
+        self.first_print = first_print  # Первый тираж
 
-        self.real = real
+    def display_info(self):
+        """Вывод информации о книге."""
+        return f"Книга: {self.initials}, Первый тираж: {self.first_print} экземпляров"
 
-        self.imaginary = imaginary
+book = Book("ЛН", 5000)
+print(book.display_info())
 
+#11.2. Наследование классов
+#Задача 12: Создать базовый класс с двумя полями и функцию обработки данных, а затем добавить производный класс, который включает дополнительные поля и методы.
 
+class Vehicle:
+    def __init__(self, brand, year):
+        self.brand = brand  
+        self.year = year   
 
-    def __init_with_params__(self, real, imaginary):
+    def display_info(self):
+        """Вывод базовой информации о транспортном средстве."""
+        return f"Марка: {self.brand}, Год выпуска: {self.year}"
 
-        self.real = real
+class Truck(Vehicle):
+    def __init__(self, brand, year, capacity):
+        super().__init__(brand, year)
+        self.capacity = capacity  # Грузоподъемность
 
-        self.imaginary = imaginary
+    def display_info(self):
+        """Переопределение метода для отображения полной информации."""
+        base_info = super().display_info()
+        return f"{base_info}, Грузоподъемность: {self.capacity} тонн"
 
+truck = Truck("Volvo", 2018, 20)
+print(truck.display_info())
 
+#11.3. Полиморфизм методов класса
+#Задача 12: Создать два класса с полиморфным методом, который имеет различное поведение в зависимости от класса.
 
-    def __del__(self):
+class Animal:
+    def make_sound(self):
+        """Полиморфный метод: звук животного."""
+        return "Животное издает звук"
 
-        print(f"Объект комплексного числа {self.real} + {self.imaginary}i уничтожен")
+class Dog(Animal):
+    def make_sound(self):
+        """Полиморфный метод: звук собаки."""
+        return "Собака лает: Гав-гав!"
 
+class Cat(Animal):
+    def make_sound(self):
+        """Полиморфный метод: звук кошки."""
+        return "Кошка мяукает: Мяу!"
 
-
-    def multiply_by_scalar(self, scalar):
-
-        return ComplexNumber(self.real * scalar, self.imaginary * scalar)
-
-
-
-    def calculate_argument(self):
-
-        return math.degrees(math.atan2(self.imaginary, self.real))
-
-
-
-    def __str__(self):
-
-        return f"{self.real} + {self.imaginary}i"
-
-
-
-
-
-if __name__ == "__main__":
-
-    complex_number = ComplexNumber(3, 4)
-
-    print("Создано комплексное число:", complex_number)
-
-
-
-    scalar = 2
-
-    multiplied = complex_number.multiply_by_scalar(scalar)
-
-    print(f"Произведение на {scalar}:", multiplied)
-
-
-
-    argument = complex_number.calculate_argument()
-
-    print("Аргумент числа в градусах:", argument)
-
-
-
-    real_part = float(input("Введите действительную часть: "))
-
-    imaginary_part = float(input("Введите мнимую часть: "))
-
-    user_complex_number = ComplexNumber(real_part, imaginary_part)
-
-    print("Созданное число:", user_complex_number)
-
-
-
-    user_scalar = float(input("Введите скаляр для умножения: "))
-
-    user_multiplied = user_complex_number.multiply_by_scalar(user_scalar)
-
-    print(f"Результат умножения на {user_scalar}:", user_multiplied)
-
-
-
-    user_argument = user_complex_number.calculate_argument()
-
-    print("Аргумент пользовательского числа в градусах:", user_argument)
-
+animals = [Dog(), Cat(), Animal()]
+for animal in animals:
+    print(animal.make_sound())
